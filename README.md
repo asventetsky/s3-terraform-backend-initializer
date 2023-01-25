@@ -4,7 +4,7 @@ S3 Terraform backend initializer is a tool for dealing with AWS resources (S3 an
 
 ## Usage
 ```shell
-./init.sh -r eu-central-1 -s history-proj-ffdsfji4u43ujfkdjf -d history-proj-fsaffsf43v4f
+./init.sh -r <region> -s <bucket_name> -d <table_name>
 
 -f - AWS Region
 -s - AWS S3 Bucket Name
