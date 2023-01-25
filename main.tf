@@ -29,6 +29,7 @@ resource "aws_s3_bucket_server_side_encryption_configuration" "remote_state_buck
 
 resource "aws_dynamodb_table" "remote_state_lock_table" {
 
+  count = var.dynamo_db_table_name != null ? 1 : 0
   name           = var.dynamo_db_table_name
   hash_key       = "LockID"
   read_capacity  = 1
