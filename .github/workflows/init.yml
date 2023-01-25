@@ -1,0 +1,22 @@
+name: Init S3 Terraform backend
+
+on:
+  workflow_dispatch:
+    inputs:
+      region:
+        required: true
+        description: AWS Region
+      bucket_name:
+        required: true
+        description: AWS S3 Bucket Name
+      table_name:
+        required: true
+        description: AWS DynamoDB Table Name
+
+jobs:
+  init_s3_terraform_backend:
+    runs-on: ubuntu-latest
+
+    steps:
+    - name: Create AWS resources
+      run: ./init.sh -r ${{ github.event.inputs.region }} -s ${{ github.event.inputs.bucket_name }} -d ${{ github.event.inputs.table_name }}
