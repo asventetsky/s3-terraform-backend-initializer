@@ -22,4 +22,6 @@ jobs:
 
     steps:
     - name: Create AWS resources
-      run: bash init.sh -r ${{ github.event.inputs.region }} -s ${{ github.event.inputs.bucket_name }} -d ${{ github.event.inputs.table_name }}
+      run: |
+        chmod +x "${GITHUB_WORKSPACE}/script.sh"
+        ${GITHUB_WORKSPACE}/init.sh -r ${{ github.event.inputs.region }} -s ${{ github.event.inputs.bucket_name }} -d ${{ github.event.inputs.table_name }}
