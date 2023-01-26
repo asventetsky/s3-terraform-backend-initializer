@@ -45,7 +45,7 @@ enable_s3_bucket_versioning() {
   echo "Start enabling versioning for S3 bucket."
   aws s3api put-bucket-versioning \
     --bucket "$S3_BUCKET_NAME" \
-    --versioning-configuration Status=Enabled \
+    --versioning-configuration MFADelete=Disabled,Status=Enabled \
     || exit
   echo "Finish enabling versioning for S3 bucket."
 }

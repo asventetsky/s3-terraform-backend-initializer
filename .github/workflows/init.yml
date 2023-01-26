@@ -10,7 +10,6 @@ on:
         required: true
         description: AWS S3 Bucket Name
       table_name:
-        required: true
         description: AWS DynamoDB Table Name
 
 jobs:
@@ -21,7 +20,6 @@ jobs:
         uses: actions/checkout@v2
       - name: Create AWS resources
         run: |
-          echo "Access key: $AWS_ACCESS_KEY_ID"
           chmod +x ./init.sh
           ./init.sh -r ${{ github.event.inputs.region }} -s ${{ github.event.inputs.bucket_name }} -d ${{ github.event.inputs.table_name }}
         env:
