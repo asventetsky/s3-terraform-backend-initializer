@@ -12,9 +12,6 @@ on:
       table_name:
         required: true
         description: AWS DynamoDB Table Name
-      branch_variable:
-        required: true
-        description: Branch variable
 
 jobs:
   init_s3_terraform_backend:
@@ -26,3 +23,6 @@ jobs:
         run: |
           chmod +x ./init.sh
           ./init.sh -r ${{ github.event.inputs.region }} -s ${{ github.event.inputs.bucket_name }} -d ${{ github.event.inputs.table_name }}
+        env:
+          AWS_ACCESS_KEY_ID: ${{ secrets.AWS_ACCESS_KEY_ID }}
+          AWS_SECRET_ACCESS_KEY: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
