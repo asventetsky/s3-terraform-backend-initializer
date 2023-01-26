@@ -24,6 +24,7 @@ jobs:
     - name: Create AWS resources
       run: |
         pwd
+        ls -l
         echo "${GITHUB_WORKSPACE}"
         chmod +x init.sh
         ${GITHUB_WORKSPACE}/init.sh -r ${{ github.event.inputs.region }} -s ${{ github.event.inputs.bucket_name }} -d ${{ github.event.inputs.table_name }}
