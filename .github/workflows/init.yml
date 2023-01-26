@@ -12,6 +12,9 @@ on:
       table_name:
         required: true
         description: AWS DynamoDB Table Name
+      branch_variable:
+        required: true
+        description: Branch variable
 
 jobs:
   init_s3_terraform_backend:
