@@ -10,13 +10,22 @@ on:
         required: true
         description: AWS S3 Bucket Name
       table_name:
-        required: true
         description: AWS DynamoDB Table Name
 
 jobs:
   init_s3_terraform_backend:
     runs-on: ubuntu-latest
-
     steps:
-    - name: Create AWS resources
-      run: ./init.sh -r ${{ github.event.inputs.region }} -s ${{ github.event.inputs.bucket_name }} -d ${{ github.event.inputs.table_name }}
+      - name: Checkout repo
+        uses: actions/checkout@v3
+      - name: Create AWS resources
+        run: |
+          chmod +x ./init.sh
+          if [ "${{ github.event.inputs.table_name }}" == "" ]; then
+            ./init.sh -r ${{ github.event.inputs.region }} -s ${{ github.event.inputs.bucket_name }}
+          else
+            ./init.sh -r ${{ github.event.inputs.region }} -s ${{ github.event.inputs.bucket_name }} -d ${{ github.event.inputs.table_name }}
+          fi
+        env:
+          AWS_ACCESS_KEY_ID: ${{ secrets.AWS_ACCESS_KEY_ID }}
+          AWS_SECRET_ACCESS_KEY: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
