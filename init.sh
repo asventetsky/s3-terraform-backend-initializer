@@ -45,6 +45,7 @@ enable_s3_bucket_versioning() {
   echo "Start enabling versioning for S3 bucket."
   aws s3api put-bucket-versioning \
     --bucket "$S3_BUCKET_NAME" \
+    --region "$REGION" \
     --versioning-configuration MFADelete=Disabled,Status=Enabled \
     || exit
   echo "Finish enabling versioning for S3 bucket."
@@ -54,6 +55,7 @@ enable_s3_bucket_encryption() {
   echo "Start enabling encryption for S3 bucket."
   aws s3api put-bucket-encryption \
     --bucket "$S3_BUCKET_NAME" \
+    --region "$REGION" \
     --server-side-encryption-configuration '{"Rules": [{"ApplyServerSideEncryptionByDefault": {"SSEAlgorithm": "AES256"}}]}' \
     || exit
   echo "Finish enabling encryption for S3 bucket."
@@ -63,6 +65,7 @@ add_s3_bucket_tags() {
   echo "Start adding tags for S3 bucket."
   aws s3api put-bucket-tagging \
     --bucket "$S3_BUCKET_NAME" \
+    --region "$REGION" \
     --tagging 'TagSet=[{Key=CreatedBy,Value=https://github.com/asventetsky/s3-terraform-backend-initializer}]' \
     || exit
   echo "Finish adding tags for S3 bucket."
@@ -72,6 +75,7 @@ create_dynamo_db_table() {
   echo "Start creating DynamoDB table."
   aws dynamodb create-table \
     --table-name "$DYNAMO_DB_TABLE_NAME" \
+    --region "$REGION" \
     --attribute-definitions AttributeName=LockID,AttributeType=S \
     --key-schema AttributeName=LockID,KeyType=HASH \
     --provisioned-throughput ReadCapacityUnits=1,WriteCapacityUnits=1 \
