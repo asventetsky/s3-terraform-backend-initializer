@@ -31,6 +31,9 @@ set_aws_keys() {
   if [[ -n $ACCESS_KEY_ID && -n $SECRET_ACCESS_KEY ]]; then
     export AWS_ACCESS_KEY_ID=$ACCESS_KEY_ID
     export AWS_SECRET_ACCESS_KEY=$SECRET_ACCESS_KEY
+    echo "Using AWS_ACCESS_KEY_ID and AWS_SECRET_ACCESS_KEY from inputs"
+  else
+    echo "Using AWS_ACCESS_KEY_ID and AWS_SECRET_ACCESS_KEY from secrets"
   fi
 }
 
