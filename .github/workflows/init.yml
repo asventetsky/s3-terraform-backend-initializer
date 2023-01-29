@@ -11,6 +11,10 @@ on:
         description: AWS S3 Bucket Name
       table_name:
         description: AWS DynamoDB Table Name
+      aws_access_key_id:
+        description: AWS access key id
+      aws_secret_access_key:
+        description: AWS secret access key
 
 jobs:
   init_s3_terraform_backend:
@@ -18,9 +22,10 @@ jobs:
     steps:
       - name: Checkout repo
         uses: actions/checkout@v3
+      - name: Make script executable
+        run: chmod +x ./init.sh
       - name: Create AWS resources
         run: |
-          chmod +x ./init.sh
           if [ "${{ github.event.inputs.table_name }}" == "" ]; then
             ./init.sh -r ${{ github.event.inputs.region }} -s ${{ github.event.inputs.bucket_name }}
           else
