@@ -2,16 +2,19 @@
 
 main() {
   # parse flags
-  while getopts "r:s:d:" flag; do
+  while getopts "r:b:t:a:s:" flag; do
     case "${flag}" in
       r) REGION=${OPTARG};;
-      s) S3_BUCKET_NAME=${OPTARG};;
-      d) DYNAMO_DB_TABLE_NAME=${OPTARG};;
+      b) S3_BUCKET_NAME=${OPTARG};;
+      t) DYNAMO_DB_TABLE_NAME=${OPTARG};;
+      a) ACCESS_KEY_ID=${OPTARG};;
+      s) SECRET_ACCESS_KEY=${OPTARG};;
       \?) echo "Unknown flag, available flags are -r, -s and -d"; exit;;
     esac
   done
 
   print_flag_values
+  set_aws_keys
   create_and_configure_s3_bucket
   if [[ -n $DYNAMO_DB_TABLE_NAME ]]; then
     create_dynamo_db_table
@@ -22,6 +25,16 @@ print_flag_values() {
   echo "Region: $REGION"
   echo "S3 Bucket Name: $S3_BUCKET_NAME"
   echo "DynamoDB table name: $DYNAMO_DB_TABLE_NAME"
+}
+
+set_aws_keys() {
+  if [[ -n $ACCESS_KEY_ID && -n $SECRET_ACCESS_KEY ]]; then
+    export AWS_ACCESS_KEY_ID=$ACCESS_KEY_ID
+    export AWS_SECRET_ACCESS_KEY=$SECRET_ACCESS_KEY
+    echo "Using AWS_ACCESS_KEY_ID and AWS_SECRET_ACCESS_KEY from inputs"
+  else
+    echo "Using AWS_ACCESS_KEY_ID and AWS_SECRET_ACCESS_KEY from secrets"
+  fi
 }
 
 create_and_configure_s3_bucket() {
