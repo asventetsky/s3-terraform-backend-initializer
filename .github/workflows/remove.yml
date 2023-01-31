@@ -1,4 +1,4 @@
-name: Init S3 Terraform backend
+name: Remove S3 Terraform backend
 
 on:
   workflow_dispatch:
@@ -17,21 +17,21 @@ on:
         description: AWS secret access key
 
 jobs:
-  init_s3_terraform_backend:
+  remove_s3_terraform_backend:
     runs-on: ubuntu-latest
     steps:
       - name: Checkout repo
         uses: actions/checkout@v3
       - name: Make script executable
-        run: chmod +x ./init.sh
-      - name: Create AWS resources
+        run: chmod +x ./remove.sh
+      - name: Remove AWS resources
         run: |
-            ./init.sh \
-              -r "${{ github.event.inputs.region }}" \
-              -b "${{ github.event.inputs.bucket_name }}" \
-              -t "${{ github.event.inputs.table_name }}" \
-              -a "${{ github.event.inputs.aws_access_key_id }}" \
-              -s "${{ github.event.inputs.aws_secret_access_key }}"
+          ./remove.sh \
+            -r "${{ github.event.inputs.region }}" \
+            -b "${{ github.event.inputs.bucket_name }}" \
+            -t "${{ github.event.inputs.table_name }}" \
+            -a "${{ github.event.inputs.aws_access_key_id }}" \
+            -s "${{ github.event.inputs.aws_secret_access_key }}"
         env:
           AWS_ACCESS_KEY_ID: ${{ secrets.AWS_ACCESS_KEY_ID }}
           AWS_SECRET_ACCESS_KEY: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
