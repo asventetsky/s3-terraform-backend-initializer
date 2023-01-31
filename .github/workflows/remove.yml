@@ -15,6 +15,7 @@ on:
         description: AWS access key id
       aws_secret_access_key:
         description: AWS secret access key
+  push:
 
 jobs:
   remove_s3_terraform_backend:
