@@ -44,6 +44,7 @@ remove_s3_bucket() {
     --region "$REGION" \
     --output=json \
     --query='{Objects: Versions[].{Key:Key,VersionId:VersionId}}' \
+    >> delete.json \
     || exit
   echo "Finish listing object versions."
 
@@ -51,10 +52,7 @@ remove_s3_bucket() {
   aws s3api delete-objects \
     --bucket "$S3_BUCKET_NAME" \
     --region "$REGION" \
-    --delete "$(aws s3api list-object-versions \
-    --bucket "$S3_BUCKET_NAME" \
-    --output=json \
-    --query='{Objects: Versions[].{Key:Key,VersionId:VersionId}}')" \
+    --delete file://delete.json
     || exit
   echo "Finish deleting objects."
 
