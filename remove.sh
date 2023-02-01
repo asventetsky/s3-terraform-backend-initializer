@@ -41,6 +41,7 @@ remove_s3_bucket() {
   echo "Start listing object versions."
   aws s3api list-object-versions \
     --bucket "$S3_BUCKET_NAME" \
+    --region "$REGION" \
     --output=json \
     --query='{Objects: Versions[].{Key:Key,VersionId:VersionId}}' \
     || exit
@@ -49,6 +50,7 @@ remove_s3_bucket() {
   echo "Start deleting objects."
   aws s3api delete-objects \
     --bucket "$S3_BUCKET_NAME" \
+    --region "$REGION" \
     --delete "$(aws s3api list-object-versions \
     --bucket "$S3_BUCKET_NAME" \
     --output=json \
@@ -56,12 +58,15 @@ remove_s3_bucket() {
     || exit
   echo "Finish deleting objects."
 
+  echo "Start removing bucket."
   aws s3 rb "s3://$S3_BUCKET_NAME"
+  echo "Finish removing bucket."
 }
 
 remove_dynamo_db_table() {
   aws dynamodb delete-table \
-    --table-name "$DYNAMO_DB_TABLE_NAME"
+    --table-name "$DYNAMO_DB_TABLE_NAME" \
+    --region "$REGION"
 }
 
 main "$@"; exit
