@@ -44,8 +44,7 @@ remove_s3_bucket() {
     --region "$REGION" \
     --output=json \
     --query='{Objects: Versions[].{Key:Key,VersionId:VersionId}}' \
-    >> delete.json \
-    || exit
+    >> delete.json
   echo "Finish listing object versions."
 
   echo "Start deleting objects."
