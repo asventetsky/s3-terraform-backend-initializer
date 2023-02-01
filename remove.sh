@@ -38,11 +38,13 @@ set_aws_keys() {
 }
 
 remove_s3_bucket() {
+  echo "List objects"
   aws s3api list-object-versions \
     --bucket "$S3_BUCKET_NAME" \
     --output=json \
     --query='{Objects: Versions[].{Key:Key,VersionId:VersionId}}'
 
+  echo "Delete objects"
   aws s3api delete-objects \
     --bucket "$S3_BUCKET_NAME" \
     --delete "$(aws s3api list-object-versions \
