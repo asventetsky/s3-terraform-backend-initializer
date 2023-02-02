@@ -57,7 +57,7 @@ remove_s3_bucket() {
   echo "Finish deleting objects."
 
   echo "Start removing bucket."
-  aws s3 rb "s3://$S3_BUCKET_NAME"
+  aws s3 rb "s3://$S3_BUCKET_NAME" --region "$REGION"
   echo "Finish removing bucket."
 }
 
