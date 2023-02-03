@@ -16,8 +16,13 @@ The AWS user should be created and configured with such a policy:
         "s3:PutBucketVersioning",
         "s3:PutEncryptionConfiguration",
         "s3:PutBucketTagging",
+        "s3:ListBucketVersions",
+        "s3:DeleteObjectVersion",
+        "s3:DeleteObject",
+        "s3:DeleteBucket",
         "dynamodb:CreateTable",
-        "dynamodb:TagResource"
+        "dynamodb:TagResource",
+        "dynamodb:DeleteTable"
       ],
       "Resource": "*"
     }
@@ -31,7 +36,12 @@ The next step is to set the corresponding secrets in order to run AWS CLI comman
 
 
 ## Usage
-To set up AWS S3 and DynamoDB resources just run a GitHub Actions workflow called `Init S3 Terraform backend`. There are several fields you should fill:
+
+There are two workflows you can use:
+- Init S3 Terraform backend
+- Remove S3 Terraform backend
+
+Both workflow accepts several variables:
 - AWS Region (required)
 - AWS S3 Bucket Name (required)
 - AWS DynamoDB Table Name (optional, if you don't want to create a lock table)
